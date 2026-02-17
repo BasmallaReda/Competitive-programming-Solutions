@@ -1,0 +1,19 @@
+//start= start ind, end= end index
+bool Palindrome(string s, int start, int End)
+{
+    if(End<start)
+        return true;
+    if(s[start]==s[End])
+        return true && Palindrome(s, start+1, End-1);
+    return false;
+}
+
+//as an array
+bool Palindrome(int* arr, int start, int End)
+{
+    if(End<=start)
+        return true;
+    if(arr[start]==arr[End])
+        return true && Palindrome(arr, start+1, End-1);
+    return false;
+}
