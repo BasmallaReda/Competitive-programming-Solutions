@@ -1,0 +1,7 @@
+//Log2, can be log any base
+unsigned long int Log2(unsigned long long  int n)
+{
+    if(n<=0)
+        return -1;
+    return 1+Log2(n/2);
+}
