@@ -1,0 +1,24 @@
+bool isPalindrome(unsigned long x) {
+    unsigned long rev=0;
+    unsigned long m=x;
+    if(x<0)
+        return false;
+    while(x)
+    {
+        rev=rev*10 + x%10;
+        x/=10;
+    }
+    if(m==rev)
+        return true;
+    return false;
+}
+
+//another one
+bool isPalindrome(int x) {
+    string s=to_string(x);
+    string temp=s;
+    reverse(s.begin(), s.end()); 
+    if(temp==s)
+        return true;
+    return false;
+}
