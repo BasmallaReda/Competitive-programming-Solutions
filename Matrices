@@ -1,0 +1,30 @@
+//adding 2 2D matrices
+void sum(vector<vector<int>>& arr1, vector<vector<int>>& arr2, int n, int m)
+{
+    if(n==0)
+        return;
+    if(m==0)
+        sum(arr1, arr2, n-1, arr1[0].size());
+    else{
+        arr1[n-1][m-1]=arr1[n-1][m-1]+arr2[n-1][m-1];
+        sum(arr1, arr2, n, m-1);
+    }
+}
+
+//Multiplication
+vector<vector<int>> multiply(vector<vector<int>> a, vector<vector<int>> b, int n1, int m1, int n2, int m2)
+{
+    vector<vector<int>> c(n1, vector<int>(m2));
+    for(int i=0;i<n1;i++)//row by row in a
+    {
+        for(int j=0;j<m2;j++)//column by column in b
+        {
+            int res=0;
+            for(int k=0;k<n2;k++)//column of a * row of b
+                res+=a[i][k]*b[k][j];
+
+            c[i][j]=res;
+        }
+    }
+    return c;
+}
