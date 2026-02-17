@@ -1,0 +1,11 @@
+int ArrGCD(vector<int> v)
+{
+    int res=v[0];
+    for(int i=1;i<v.size();i++)
+    {
+        res=GCD(res,v[i]); // in GCD file
+        if(res==1)//no number less than 1 in GCD
+            return res;
+    }
+    return res;
+}
