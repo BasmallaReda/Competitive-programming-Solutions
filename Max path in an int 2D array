@@ -1,0 +1,13 @@
+// 2D array n*m, starts always at [0][0] and ends at [n-1][m-1]
+// can only move to the right or to the bottom
+
+int MaxSum( vector<vector<int>>& arr, int n , int m) 
+{
+    if(m==0 || n==0) //it can hold positive or negative numbers
+        return INT_MIN;
+    if(m==1 && n==1)// starts from bottom right to top left
+        return arr[0][0];
+    int p1= MaxSum(arr, n-1, m);
+    int p2= MaxSum(arr, n, m-1);
+    return arr[n-1][m-1]+max(p1, p2);
+}
