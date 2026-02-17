@@ -1,0 +1,27 @@
+//recursion
+int Fibo(int n)
+{
+    int result;
+    if(n<=2)
+        result=1;
+    else
+        result= Fibo(n-1)+Fibo(n-2);
+    return result;
+}
+
+//iterative
+unsigned long long fibo(int n)
+{
+    unsigned long long arr[3]={0,1};
+    if(n==0)
+        return 0;
+    else if(n==2 || n==1)
+        return 1;
+    for(int i=1;i<n;i++)
+    {
+        arr[2]=arr[0]+arr[1];
+        arr[0]=arr[1];
+        arr[1]=arr[2];
+    }
+    return arr[2];
+}
