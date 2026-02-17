@@ -1,0 +1,11 @@
+int Exp(int n, int x, vector<int>& arr, vector<int>& W)
+{
+    cout<<x<<endl;
+    if(x==0 || n==0)
+        return 0;
+    int r1=0;
+    if(x>=arr[n-1])
+        r1=W[n-1]+Exp(n-1,x-arr[n-1], arr,W);
+    int r2=Exp(n-1,x, arr,W);
+    return max(r1, r2);
+}
