@@ -1,11 +1,57 @@
-int Exp(int n, int x, vector<int>& arr, vector<int>& W)
+#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+vector<int> knap(1000), weight(1000);int w;
+vector<vector<int>> dp(1000, vector<int>(1000, 0));
+
+int recknapsack(int ind, int wee)//Recursion 
 {
-    cout<<x<<endl;
-    if(x==0 || n==0)
+    if(wee==0 || ind ==0)
         return 0;
-    int r1=0;
-    if(x>=arr[n-1])
-        r1=W[n-1]+Exp(n-1,x-arr[n-1], arr,W);
-    int r2=Exp(n-1,x, arr,W);
-    return max(r1, r2);
+    int take=0, leave;
+    leave=recknapsack(ind-1,wee);
+    if( wee >= knap[ind-1])
+        take=weight[ind-1]+recknapsack(ind-1,wee-knap[ind-1]);
+    return max(take, leave);
+}
+
+int knapsack(int ind, int wee)//memoization DP
+{
+    if(wee==0 || ind ==0)
+        return 0;
+    if(dp[ind][wee] !=0)
+        return dp[ind][wee];
+    int take=0, leave;
+    leave=knapsack(ind-1,wee);
+    if( wee >= knap[ind-1])
+        take=weight[ind-1]+knapsack(ind-1,wee-knap[ind-1]);
+    return dp[ind][wee]=max(take, leave);
+}
+int knapDP(int ind, int wee)//bottom up DP
+{
+    for(int i=1;i<=ind;i++)
+    {
+        for(int j=1;j<=wee;j++)
+        {
+            int take=0, leave=0;
+            if(j >= knap[i-1])//take it
+                take=weight[i-1]+dp[i-1][j-knap[i-1]];
+            leave=dp[i-1][j];
+            dp[i][j]=max(take, leave);
+            cout<<dp[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    return dp[ind][wee];
+}
+int main()
+{
+    int n;
+    cin>>n>>w;
+    for(int i=0;i<n;i++)
+        cin>>knap[i]>>weight[i];
+    cout<<knapsack( n,w);
+    return 0;
 }
