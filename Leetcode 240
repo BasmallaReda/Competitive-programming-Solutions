@@ -1,0 +1,62 @@
+class Solution {
+public:
+    int ColumnBS(vector<vector<int>> &arr, int low, int high,int column, int x) {
+        if (high >= low) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid][column] == x)
+                return mid;
+            if (arr[mid][column] > x)
+                return ColumnBS(arr, low, mid - 1, column, x);
+            return ColumnBS(arr, mid + 1, high, column, x);
+        }
+        return -1;
+    }
+    int RowBS(vector<vector<int>> &arr, int low, int high,int row, int x) {
+        if (high >= low) {
+            int mid = low + (high - low) / 2;
+            if (arr[row][mid] == x)
+                return mid;
+            if (arr[row][mid] > x)
+                return RowBS(arr, low, mid - 1, row, x);
+            return RowBS(arr, mid + 1, high, row, x);
+        }
+        return -1;
+    }
+    bool searchMatrix(vector<vector<int>>& nums, int target) {
+        bool hor=false, ver=false;
+        int n=nums.size(),m=nums[0].size();
+        for(int i=0;i<m;i++)//column by column
+        {
+            if(!ver && target>= nums[0][i] && target <= nums[n-1][i])
+                ver= (ColumnBS(nums,0,n-1, i, target)==-1)? false:true;
+        }
+        if(!ver){
+            for(int i=0;i<n;i++)//row by row
+            {
+                if(!hor && target>= nums[i][0] && target <= nums[i][m-1])
+                    hor= (RowBS(nums,0,m-1, i, target)==-1)? false:true;
+            }
+        }
+        return (ver||hor);
+    }
+};
+
+/*
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& nums, int target) {
+        int n=nums.size(),m=nums[0].size();
+        int i=0, j=m-1;
+        while(i<n && j>=0)
+        {
+            if(nums[i][j]==target)
+                return true;
+            if(nums[i][j]> target)//to the left
+                j--;
+            else//to the bottom
+                i++;
+        }
+        return false;
+    }
+};
+*/
