@@ -1,0 +1,31 @@
+/* like maximum subarray, Kadane's Algorithm for maximum subarray, Easy */
+int helper(vector<int>& prices, int s, int e)
+    {
+        if(s>=e)
+            return 0;
+        int mid=(s+e)/2;
+        int left=helper(prices,s,mid);
+        int right=helper(prices, mid+1, e);
+        int minLeft = prices[s];
+        for(int i = s; i <= mid; i++)
+            minLeft = min(minLeft, prices[i]);
+
+        int maxRight = prices[mid + 1];
+        for(int i = mid + 1; i <= e; i++)
+            maxRight = max(maxRight, prices[i]);
+        return max({maxRight-minLeft,left,right});
+    }
+    int maxProfit(vector<int>& prices){
+        //return helper(prices, 0, prices.size()-1); //to use helper function, 2nd solution
+        //1st one
+        int n=prices.size();
+        int m=prices[0], maxi=0;
+        for(int i=1;i<n;i++)//[5,4,3,2,1]
+        {
+            if(prices[i]-m<=0)
+                m=prices[i];
+            else
+                maxi=max(maxi,prices[i]-m);
+        }
+        return maxi;
+    }
