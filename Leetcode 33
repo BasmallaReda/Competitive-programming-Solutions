@@ -1,0 +1,32 @@
+//Binary search
+class Solution {
+public:
+    int helper(vector<int>& v, int Start, int End, int target)
+    {
+        if(Start>End || Start==End && v[End]!=target)
+            return -1;
+        if(Start==End && v[End]==target)
+            return End;
+
+        int mid=(Start+End)/2;
+        if(v[mid]==target)
+            return mid;
+        if(v[mid]>=v[Start])//1st half sorted
+        {
+            if(target>=v[Start] && target<v[mid])//is in the sorted part
+                return helper(v,Start,mid-1,target);
+            else 
+                return helper(v,mid+1,End,target);
+        }
+        else//2nd half sorted
+        {
+            if(target<=v[End] && target>v[mid])//is in the sorted part
+                return helper(v,mid+1,End,target);
+            else 
+                return helper(v,Start,mid-1,target);
+        }       
+    }
+    int search(vector<int>& nums, int target) {
+        return helper(nums,0,nums.size()-1,target);
+    }
+};
