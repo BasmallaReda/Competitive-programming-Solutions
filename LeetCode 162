@@ -1,0 +1,26 @@
+//Find Peak Element
+int helper(vector<int>& v, int beg, int end)    
+    {
+        if(beg==end)
+            return beg;
+        int mid=(beg+end)/2;
+        if(mid<v.size()-1 && v[mid+1]>v[mid] )
+            return helper(v,  mid+1, end);
+        else if(mid>0 && v[mid-1]>v[mid])
+            return helper(v, beg, mid-1);
+        else 
+            return mid;
+    }
+    int findPeakElement(vector<int>& nums) {
+        //return helper(nums, 0, nums.size()-1); //2nd solution
+        int m=nums[0];
+        int j=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]>m){
+                m=nums[i];
+                j=i;
+            }
+        }
+        return j;
+    }
