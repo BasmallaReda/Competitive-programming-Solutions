@@ -1,0 +1,45 @@
+//Vacations, Pre-last Question, DP sheet, Cases style with condition
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <bits/stdc++.h>
+using namespace std;
+vector<vector<int>>dp(101,vector<int>(4,-1));
+int fun(vector<int>& v, int ind, int prev)
+{
+    if(ind<0)
+        return 0;
+
+    int rest=1+fun(v,ind-1,-1);
+    if(dp[ind][prev+1]!=-1)
+        return dp[ind][prev+1];
+
+    else if(v[ind]==2 && prev ==-1)
+        return dp[ind][prev+1]=min({fun(v,ind-1,0),fun(v,ind-1,1), rest});
+
+    if((v[ind]==0 || v[ind]==2) && prev!=0)
+        return dp[ind][prev+1]=min(fun(v,ind-1,0),rest);
+
+    else if((v[ind]==1|| v[ind]==2) && prev!=1)
+        return dp[ind][prev+1]=min(fun(v,ind-1,1),rest);
+
+    else
+        return dp[ind][prev+1]=rest;//normal day, one then another one
+
+}
+int main()
+{
+    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    int n;
+    cin>>n;
+    vector<int> v(n);
+    for(int i=0;i<n;i++)
+    {
+        int k;
+        cin>>k;
+        v[i]=k-1;
+    }
+    cout<<fun(v,n-1,-1)<<endl;
+    return 0;
+}
