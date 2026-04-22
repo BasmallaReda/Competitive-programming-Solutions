@@ -1,0 +1,25 @@
+
+void para(int n,vector<string>& v,int nop, int ncl, string res="")
+{
+    if(ncl==n)// no more adding
+        v.push_back(res);
+    else if(nop == ncl )
+        para(v,nop+1,ncl, res+"(");
+    else if(nop==n)
+        para(v,nop,ncl+1, res+")");
+    else
+    {
+        para(v,nop+1,ncl, res+"(");
+        para(v,nop,ncl+1, res+")");
+    }
+}
+
+int main()
+{
+    cin>>n;
+    vector<string>v;
+    para(v,0,0);
+    for(int i=0;i<v.size();i++)
+        cout<<v[i]<<endl;
+    return 0;
+}
