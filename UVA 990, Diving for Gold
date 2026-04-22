@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include <bits/stdc++.h>
+using namespace std;
+
+int knapsack(vector<int> &val, vector<int> &wt, int Time, vector<vector<int>>& dp) {
+    for(int i=1;i<=val.size();i++)
+    {
+        for(int j=1;j<=Time;j++)
+        {
+            int take=0, leave=0;
+            if(wt[i-1]<=j)
+                take=val[i-1]+dp[i-1][j-wt[i-1]];
+            leave=dp[i-1][j];
+            dp[i][j]=max(take, leave);
+        }
+    }
+    return dp[val.size()][Time];
+}
+
+vector<int> Extract(vector<vector<int>>& dp, vector<int> &val,vector<int>&wt, int Time)
+{
+    vector<int> v;
+    for(int i=val.size();i>0;i--)
+    {
+        if(dp[i][Time]!=dp[i-1][Time])
+        {
+            v.push_back(i-1);
+            Time-=wt[i-1];
+        }
+    }
+    return v;
+}
+int main()
+{
+    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    int n;
+    int Time, constant;
+    cin>>Time>>constant>>n;
+    vector<int> val(n), wt(n);
+    for(int i=0;i<n;i++)
+    {
+        int w;
+        cin>>w>>val[i];
+        wt[i]=3*constant*w;
+    }
+    vector<vector<int>> dp(n+1,vector<int>(Time+1,0));
+    cout<<knapsack(val,wt, Time, dp)<<"\n";
+    vector<int> v=Extract(dp,val,wt,Time);
+    cout<<v.size()<<"\n";
+    for(int i=v.size()-1;i>=0;i--)
+    {
+        cout<<wt[v[i]]/(3*constant)<<" "<<val[v[i]]<<"\n";
+    }
+    return 0;
+}
