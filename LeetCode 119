@@ -1,0 +1,27 @@
+//Pascal's triangle for only nth row, Easy
+vector<vector<int>> p(int n)
+    {
+        int row=2;
+        vector<vector<int>> pp;
+        if(n>0)
+            pp.push_back({1});
+        if(n>1)
+            pp.push_back({1,1});
+        vector<int> v;
+        while(row<n){
+            v.push_back(1);
+            for(int i=1;i<row;i++)
+            {
+                int s=pp[row-1][i-1]+pp[row-1][i];
+                v.push_back(s);
+            }
+            v.push_back(1);
+            pp.push_back(v);
+            v.clear();
+            row++;
+        }
+        return pp;
+    }
+    vector<vector<int>> generate(int n) {
+        return p(n);
+    }
