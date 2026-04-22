@@ -1,0 +1,50 @@
+//DP, Knapsack
+class Solution {
+private: 
+public:
+    //tree method
+    int fun(vector<int>& v, int amount,vector<int>& dp)
+    {
+        if(amount==0)
+            return 0;
+        if(amount<0)
+            return INT_MAX;
+        if(dp[amount]!=-1)
+            return dp[amount];
+        int m=INT_MAX;
+        for(int i=0;i<v.size();i++)
+        {
+            int res=fun(v,amount-v[i],dp);
+            if(res<m)
+                m=1+res;
+        }
+        return dp[amount]=m;
+    }
+    //knapsack algorithm
+    int Fun(vector<int>& v, int ind, int amount,vector<vector<int>>&dp)
+    {
+        if(amount==0)
+            return 0;
+        if(ind==0)
+            return (amount%v[0]==0)?amount/v[0]:1e9;
+        if(amount<0)
+            return 1e9;
+        if(dp[amount][ind]!=-1)
+            return dp[amount][ind];
+        int take=1e9, leave;
+        if(v[ind]<=amount)
+            take=1+Fun(v,ind,amount-v[ind],dp);
+        leave=Fun(v,ind-1,amount,dp);
+        return dp[amount][ind]=min(take,leave);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        //vector<int> dp(100000,-1);
+        //int ans=fun(coins,amount,dp);//1st function, Memoization
+        vector<vector<int>> dp(amount+1,vector<int>(coins.size(),-1));
+        int ans=Fun(coins,coins.size()-1,amount,dp);//2nd function, memoization, too
+        if(ans == 1e9)
+            return -1;
+        else
+            return ans; 
+    }
+};
