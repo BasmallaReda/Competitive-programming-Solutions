@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int longestPalindrome(string s) {
+        vector<int> letters('z'-'A'+1,0);
+        for(int i=0;i<s.length();i++)
+        {
+            int l=s[i]-'A';
+            letters[l]++;
+        }
+        bool flag=false;
+        int sum=0;
+        for(int i=0;i<letters.size();i++)
+        {
+            if(letters[i]%2)
+                flag=true;
+            sum+=letters[i]-letters[i]%2;
+        }
+        return sum+flag;
+    }
+};
