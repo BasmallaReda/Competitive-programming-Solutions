@@ -1,0 +1,47 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        for(int i=0;i<9;i++)
+        {
+            //cout<<"Outmost(i): "<<i<<endl;
+            vector<int> counter(9,0),counter2(9,0), square(9,0);
+            for(int j=0;j<9;j++)//row and column validation
+            {
+                //cout<<"Ver&Hor: "<<j<<endl;
+                if(board[i][j]!='.')
+                {
+                    int num1=board[i][j]-'1';
+                    counter[num1]++;
+                    if(counter[num1]>1) return false;
+                }
+
+                if(board[j][i]!='.')
+                {
+                    int num2=board[j][i]-'1';
+                    counter2[num2]++;
+                    if(counter2[num2]>1) return false;
+                }
+
+            }
+            int out=(i/3)*3;
+            int in=(i%3)*3;
+            for(int j=out;j<out+3;j++)
+            {
+                //cout<<"Square: "<<j<<" "<<endl;
+                for(int k=in;k<in+3;k++)
+                {
+                    //cout<<k<<" "<<endl;
+                    if(board[j][k]!='.')
+                    {
+                        int num=board[j][k]-'1';
+                        square[num]++;
+                        if(square[num]>1) return false;
+                    }
+                }
+            }
+
+        }
+        return true;
+
+    }
+};
