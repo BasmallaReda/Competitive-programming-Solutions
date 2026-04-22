@@ -4,6 +4,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int Max(vector<int>& v)//Bottom-Up
+{
+    vector<int> dp(v.size()+1,0);
+    dp[0]=v[0];
+    dp[1]=v[1];
+    dp[2]=dp[0]+v[2];
+    for(int i=3;i<v.size();i++)
+    {
+        dp[i]=v[i]+max(dp[i-2],dp[i-3]);
+    }
+    return dp[v.size()-1];
+}
+
 int fun(vector<int>& v, int ind, vector<int>&dp)
 {
     if(ind+2>=v.size())
