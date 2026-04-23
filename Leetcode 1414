@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int findMinFibonacciNumbers(int k,int a=1,int b=1)
+    {
+        if(k==0)
+            return 0;
+        else if(b<=k){
+            //cout<<"1st if "<<b<<" "<<a<<endl;
+            return findMinFibonacciNumbers(k,b,a+b);//1 1 2 3 5 8
+        }
+        else if(b==k || a<=k){
+            //cout<<"2nd if "<<b<<" "<<a<<" "<<k<<endl;
+            return 1+findMinFibonacciNumbers(k-a,b-a,a);
+        }
+        else{
+            //cout<<"3rd if "<<b<<" "<<a<<endl;
+            return findMinFibonacciNumbers(k,b-a,a);
+        }
+    }
+};
