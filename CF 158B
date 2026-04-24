@@ -1,0 +1,29 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    int n;
+    cin>>n;
+    int in;
+    unordered_map <int, int> mp;
+    mp[3]=mp[2]=mp[1]=mp[4]=0;
+    for(int i=0;i<n;i++)
+    {
+        cin>>in;
+        mp[in]++;
+    }
+    if(mp[3]>=mp[1])// no ones needed for calculations, they got immersed in 3s
+        mp[1]=0;
+    else// immerse the 3 amount of ones in 3 and treat the leftovers of 1s as 1s(with no 3 to complete)
+        mp[1]-=mp[3];
+
+    cout<<mp[4] + mp[3] + mp[2]/2 + mp[1]/4 + ceil(( (mp[2]%2)*2 +(mp[1])%4)/4.0)<<endl;
+    return 0;
+}
