@@ -1,0 +1,21 @@
+//DP, Top Down
+class Solution {
+public:
+    int helper(vector<vector<int>>& grid, int i, int j,vector<vector<int>>& dp )
+    {
+        if(j+1>=grid[0].size() && i+1>= grid.size())//southern-east corner, no more moves
+            return 0;
+        int left=1e5, down=1e5;
+        if(dp[i][j])
+            return dp[i][j];
+        if(j+1< grid[0].size())
+            left=grid[i][j+1]+helper(grid, i, j+1, dp);
+        if(i+1<grid.size())
+            down=grid[i+1][j]+helper(grid, i+1, j, dp);
+        return dp[i][j]=min(left, down);
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        vector<vector<int>> dp(grid.size(), vector<int> (grid[0].size(), 0));
+        return helper(grid, 0, 0, dp)+grid[0][0];
+    }
+};
