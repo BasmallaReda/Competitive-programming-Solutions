@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int fun(string s1, string s2, int ind1, int ind2, vector<vector<int>>&dp)
+    {
+        if( ind1>=s1.size() && ind2<=s2.size())
+            return abs(ind2-int(s2.size()) );//insert or delete
+        if( ind2>=s2.size() && ind1<=s1.size() )
+            return abs(ind1-int(s1.size()) );//insert or delete
+
+        if(dp[ind1][ind2]!=-1)
+            return dp[ind1][ind2];
+        if(s1[ind1]==s2[ind2])
+            return fun(s1, s2, ind1+1, ind2+1, dp);
+        int d=1+fun(s1, s2, ind1+1, ind2, dp);
+        int i=1+fun(s1, s2, ind1, ind2+1, dp);
+        int r=1+fun(s1, s2, ind1+1, ind2+1, dp);
+        return dp[ind1][ind2]=min({r,d, i});
+    }
+    int minDistance(string word1, string word2) {
+        vector<vector<int>>dp(word1.size()+1, vector<int>(word2.size(),-1));
+        return fun(word1,word2,0,0, dp);
+    }
+};
