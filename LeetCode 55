@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool fun(vector<int>& v, int i,vector<int>& dp)
+    {
+        int ch=false;
+        if(i>=v.size()-1)
+            return true;
+        if(dp[i]!=-1)
+            return dp[i];
+        for(int k=1;k<=v[i];k++)
+        {
+            if(i+k>=v.size()-1 ||ch)
+                return true;
+            if(v[i+k])
+                ch=ch|fun(v,i+k, dp);
+        }
+        return dp[i]=ch;
+    }
+    bool canJump(vector<int>& nums) {
+        int maxi=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            maxi=max(maxi, nums[i]);
+            if(maxi<=0 && i<nums.size()-1)
+                return false;
+            maxi--;
+        }
+        return true;
+    }
+};
