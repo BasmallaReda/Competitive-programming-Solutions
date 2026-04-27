@@ -1,0 +1,59 @@
+/*
+class Solution {
+  public:
+    int fun(vector<vector<int>>& mat, int person, vector<bool>& visited)
+    {
+        int c=0;
+        for(int i=0;i<mat.size();i++)
+        {
+            if(mat[c][i]==1)
+                c=i;
+        }
+        for(int i=0;i<mat.size();i++)
+        {
+            if(c!=i && !(mat[c][i]==0 && mat[i][c]==1))
+                return -1;
+        }
+        return c;
+    
+    }
+    int celebrity(vector<vector<int>>& mat, int person=0)
+    {
+        vector<bool> visited(mat.size(), false);
+        return fun(mat,0,visited);
+    }
+        
+};
+*/
+class Solution {
+  public:
+    int fun(vector<vector<int>>& mat, int person, vector<bool>& visited)
+    {
+        for(int i=0;i<mat.size();i++)
+        {
+            //cout<<person<<" "<<i<<" "<<((visited[person])?"true":"false")<<endl;
+            if(mat[person][i] && person !=i ){
+                    if(!visited[i]){
+                        visited[person]=true;
+                        return fun(mat,i, visited);
+                    }
+                    visited[person]=true;
+            }
+        }
+        if(!visited[person]){
+            for(int i=0;i<mat.size();i++)
+            {
+                if(!mat[i][person])
+                    return -1;
+            }
+            return person;
+        }
+        else
+            return -1;
+    }
+    int celebrity(vector<vector<int>>& mat, int person=0)
+    {
+        vector<bool> visited(mat.size(), false);
+        return fun(mat,0,visited);
+    }
+};
