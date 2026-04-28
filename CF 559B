@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+
+bool fun(string s1,string s2)
+{
+    if(s1==s2)
+        return true;
+    string a1=s1.substr(0,s1.size()/2);
+    string a2=s1.substr(s1.size()/2);
+    string b1=s2.substr(0,s2.size()/2);
+    string b2=s2.substr(s2.size()/2);
+    if(a1.size()!=b2.size())
+        return false;
+
+    return (fun(a1,b1)&&fun(a2,b2)) || (fun(a2,b1)&&fun(a1,b2));
+}
+int main()
+{
+    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    string s1,s2;
+    cin>>s1>>s2;
+    if(fun(s1,s2))
+        cout<<"Yes\n";
+    else
+        cout<<"No\n";
+    return 0;
+
+}
