@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<int, int> ii;
+
+
+class DSU
+{
+private:
+    vector<int> Parent;
+    vector<int> Rank;
+public:
+    DSU(int n)
+    {
+        Parent.resize(n);
+        for(int i=0;i<n;i++) Parent[i]=i;
+        Rank.resize(n);
+        Rank.assign(n, 0);
+    }
+    int FindRoot(int i)
+    {
+        if(i==Parent[i])
+            return i;
+        return Parent[i]=FindRoot(Parent[i]);
+    }
+    bool Unite(int x, int y)
+    {
+        int Px=FindRoot(x), Py=FindRoot(y);
+        if(Px==Py) return false;
+        if(Rank[Py]>Rank[Px])     Parent[Px]=Py;
+        else if(Rank[Py]<Rank[Px])Parent[Py]=Px;
+        else
+        {
+            Parent[Px]=Py;
+            Rank[Px]++;
+        }
+        return true;
+    }
+};
+bool compare(const pair<int, ii>& a, const pair<int, ii>& b)
+{
+    return a.first < b.first;   // ascending for MST
+}
+int Kruskal(vector<pair<int,ii>>& e, int v)
+{
+    DSU d(v);
+    sort(e.begin(), e.end(), compare);
+    int wt=0;
+    vector<bool> visited(v,false);
+    for(int i=0;i<e.size();i++)
+    {
+        int w = e[i].first;
+        int u = e[i].second.first;
+        int v = e[i].second.second;
+        if(d.FindRoot(u)!=d.FindRoot(v))
+        {
+            d.Unite(u,v);
+            wt+=w;
+        }
+    }
+    return wt;
+}
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, E;
+    cin >> n >> E;
+
+    vector<pair<int, ii>> EdgeList; // (weight, (u, v))
+
+    for (int i = 0; i < E; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        EdgeList.push_back({w, {u, v}});
+    }
+    cout<<Kruskal(EdgeList, n);
+    return 0;
+}
