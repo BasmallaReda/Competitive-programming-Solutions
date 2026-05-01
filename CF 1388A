@@ -1,0 +1,28 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    cin.tie(nullptr);
+    ios_base::sync_with_stdio(false);
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        //2*3 2*5 2*7 3*5
+        n-=30;
+        if(n<1)
+            cout<<"No\n";
+        else if(n==6 || n==14 || n==10){
+            n-=1;
+            cout<<"YES\n6 10 15 "<<n<<endl;
+        }
+        else
+            cout<<"YES\n6 10 14 "<<n<<endl;
+    }
+}
