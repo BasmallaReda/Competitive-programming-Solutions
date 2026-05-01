@@ -1,0 +1,22 @@
+//vector<int> dp;
+//void fun(int n)
+//{
+//    for(int i=2;i<n;i++)
+//    {
+//        bool flag=true;
+//        for(int j=0;j<dp.size();j++)
+//        {
+//            if((i%dp[j]) ==0)
+//            {
+//                flag=false;
+//                break;
+//            }
+//        }
+//        if(flag){
+//            dp.push_back(i);
+//            if(dp[dp.size()-1]*2 >=n)
+//                    {dp.pop_back();return;}
+//            cout<<dp[dp.size()-1]<<endl;
+//        }
+//    }
+//}
