@@ -1,0 +1,137 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<int, int> ii;
+/* Input Example
+8 9
+0 1 1
+0 2 2
+0 3 3
+1 4 4
+1 5 5
+2 6 6
+3 7 7
+4 5 10
+6 7 10
+*/
+
+class DSU
+{
+private:
+    vector<int> Parent;
+    vector<int> Rank;
+public:
+    int root;
+    DSU(int n)
+    {
+        Parent.resize(n);
+        for(int i=0;i<n;i++) Parent[i]=i;
+        Rank.resize(n);
+        Rank.assign(n, 0);
+        root=0;
+    }
+    int FindRoot(int i)
+    {
+        if(i==Parent[i])
+            return root=i;
+        return Parent[i]=FindRoot(Parent[i]);
+    }
+    void Unite(int x, int y)
+    {
+        int Px=FindRoot(x), Py=FindRoot(y);
+        if(Rank[Py]>Rank[Px])     Parent[Px]=Py;
+        else if(Rank[Py]<Rank[Px])Parent[Py]=Px;
+        else
+        {
+            Parent[Px]=Py;
+            Rank[Py]++;
+        }
+    }
+};
+bool compare(const pair<int, ii>& a, const pair<int, ii>& b)
+{
+    return a.first < b.first;   // ascending for MST
+}
+int Kruskal(vector<pair<int,ii>>& e, int v, vector<vector<int>>& edgesTaken, int& root)
+{
+    DSU d(v);
+    sort(e.begin(), e.end(), compare);
+    int wt=0;
+    vector<bool> visited(v,false);
+    for(int i=0;i<e.size();i++)
+    {
+        int w = e[i].first;
+        int u = e[i].second.first;
+        int ver = e[i].second.second;
+        if(d.FindRoot(u)!=d.FindRoot(ver))
+        {
+            d.Unite(u,ver);
+            root=d.root;
+            wt+=w;
+            edgesTaken[u].push_back(ver);
+            edgesTaken[ver].push_back(u);
+        }
+    }
+    return wt;
+}
+
+void DFS(const vector<vector<int>>& adj, vector<bool>& visited, int u)
+{
+    visited[u] = true;
+    cout << u << " ";
+
+    for (int v : adj[u])
+    {
+        if (!visited[v])
+            DFS(adj, visited, v);
+    }
+}
+
+void BFS(const vector<vector<int>>& adj,vector<bool>&visited, queue<int>& q)
+{
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        cout << u << " ";
+        for (int v : adj[u])
+        {
+            if (!visited[v]) {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, E;
+    cin >> n >> E;
+
+    vector<pair<int, ii>> EdgeList; // (weight, (u, v))
+
+    for (int i = 0; i < E; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        EdgeList.push_back({w, {u, v}});
+    }
+    vector<vector<int>> edgesTaken(n);
+    vector<bool> visited(n,false);
+    int root=0;
+    cout<<Kruskal(EdgeList, n, edgesTaken, root)<<endl;
+    visited[root]=true;
+    DFS(edgesTaken,visited,root);
+    cout<<endl;
+    queue<int> q;
+    q.push(root);
+    visited.assign(n,false);
+    visited[root]=true;
+    BFS(edgesTaken,visited,q);
+    return 0;
+}
