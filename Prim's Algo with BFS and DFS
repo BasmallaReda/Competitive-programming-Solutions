@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+typedef pair<int, int> ii;
+
+int prim(vector<vector<int>>& edges, vector<vector<int>>& edgesTaken)
+{
+    int n=edges.size();
+    int Wt=0;
+    priority_queue<ii, vector<ii>, greater<ii> > minHeap;
+
+    vector<bool> visited(n,false);
+    minHeap.push({0,0});
+
+    while(!minHeap.empty()){
+        ii res=minHeap.top();
+        minHeap.pop();
+        int u=res.first, v=res.second;
+        if(visited[v]) continue;
+
+        edgesTaken[u].push_back(v);
+        edgesTaken[v].push_back(u);
+        Wt+=edges[u][v];
+        visited[v]=true;
+        for(int i=0;i<n;i++)
+        {
+            if(edges[v][i] && !visited[i])
+                minHeap.push({v, i});
+        }
+    }
+    return Wt;
+}
+void DFS(const vector<vector<int>>& adj, vector<bool>& visited, int u)
+{
+    visited[u] = true;
+    cout << u << " ";
+
+    for (int v : adj[u])
+    {
+        if (!visited[v])
+            DFS(adj, visited, v);
+    }
+}
+
+void BFS(const vector<vector<int>>& adj,vector<bool>&visited, queue<int>& q)
+{
+    while (!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        cout << u << " ";
+        for (int v : adj[u])
+        {
+            if (!visited[v]) {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >>n;
+    vector<vector<int>> mat(n, vector<int> (n));
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+            cin>>mat[i][j];
+    }
+    vector<bool>visited(n, false);
+    vector<vector<int>>adj(n);
+    int root=0;
+    cout<<prim(mat,adj)<<endl;
+
+    DFS(adj,visited,0);
+    cout<<endl;
+    visited.assign(n,false);
+    queue<int> q;
+    q.push(0);
+    visited[0]=true;
+    BFS(adj, visited, q);
+    return 0;
+}
