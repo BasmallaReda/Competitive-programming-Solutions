@@ -1,0 +1,26 @@
+class Solution {
+public:
+    double powNum(double A, long long N) {
+        if (N == 0) return 1;
+
+        long long M = N / 2;
+
+        double P = powNum(A, M);
+
+        if (N % 2 != 0)
+            return P * P * A;
+        else
+            return P * P;
+    }
+
+    double myPow(double A, int n) {
+        long long N = n;
+
+        if (N < 0) {
+            A = 1 / A;
+            N = -N;
+        }
+
+        return powNum(A, N);
+    }
+};
