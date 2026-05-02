@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+using namespace std;
+#define oo INT_MAX
+typedef long long ll;
+typedef pair<int, bool> ii;
+
+//d {val, visited}
+void Dijkastra(vector<vector<int>>& mat, int ind, vector<ii>& d)
+{
+    int mini=INT_MAX;
+    int n=mat.size(), nxt=-1;
+    for(int i=0;i<n;i++)
+    {
+        int wt=d[i].first;
+        bool visited=d[i].second;
+        if(!visited && wt<mini)
+        {
+            mini=wt;
+            nxt=i;
+        }
+    }
+    if(nxt==-1)
+        return;
+    d[nxt].second=true;
+
+    for(int i=0;i<n;i++)
+    {
+        if(!d[i].second && mat[nxt][i]!=INT_MAX && d[i].first>mini+mat[nxt][i])
+            d[i].first=mini+mat[nxt][i];
+    }
+    cout<<"nxt: "<<nxt<<endl;
+    return Dijkastra(mat,nxt,d);
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, src;
+    cin >>n>>src;
+    vector<vector<int>> mat(n, vector<int> (n));
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++){
+            cin>>mat[i][j];
+            if(i!=j && mat[i][j]==0)
+                mat[i][j]=INT_MAX;
+        }
+    }
+    vector<ii> d(n,{INT_MAX, false});
+    d[src].first=0;
+    Dijkastra(mat,src,d);
+    for(int i = 0; i < n; i++)
+    {
+        cout << i << " ";
+        if(d[i].first == INT_MAX)
+            cout << "INF";
+        else
+            cout << d[i].first;
+        cout << '\n';
+    }
+    return 0;
+}
