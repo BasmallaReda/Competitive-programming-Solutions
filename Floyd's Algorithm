@@ -1,0 +1,74 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+#define oo INT_MAX
+using namespace std;
+typedef long long ll;
+typedef pair<int, bool> ii;
+
+
+void Floyd(vector<vector<int>>& mat, int mid, vector<vector<int>>& from)
+{
+    int n=mat.size();
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if( mat[i][mid] != INT_MAX &&
+                mat[mid][j] != INT_MAX &&
+                mat[i][j] > mat[i][mid] + mat[mid][j])
+            {
+                mat[i][j]=mat[i][mid]+mat[mid][j];
+                from[i][j]=mid;
+            }
+        }
+    }
+    if(mid+1<n)
+        Floyd(mat,mid+1, from);
+}
+void printPath(int u, int v, const vector<vector<int>>& from)
+{
+    if (u == v) {
+        cout << u;
+        return;
+    }
+    printPath(u, from[u][v], from);
+    cout << " -> " << v;
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >>n;
+    vector<vector<int>> mat(n, vector<int> (n));
+    vector<vector<int>> from(n, vector<int>(n, 0));
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++){
+            cin>>mat[i][j];
+            if(i!=j && mat[i][j]==0)
+                mat[i][j]=INT_MAX;
+            from[i][j]=i;
+        }
+    }
+    Floyd(mat, 0, from);
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(mat[i][j]==INT_MAX)
+                cout<<"INF\t";
+            else
+                cout<<mat[i][j]<<"\t";
+        }
+        cout<<endl;
+    }
+    int src, des;
+    cin>>src>>des;
+    printPath(src, des, from);
+    return 0;
+}
