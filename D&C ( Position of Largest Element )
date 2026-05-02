@@ -1,0 +1,15 @@
+int maxPosition(int A[], int left, int right) 
+{
+    if (left == right)
+        return left;
+
+    int mid = (left + right) / 2;
+
+    int pos1 = maxPosition(A, left, mid);
+    int pos2 = maxPosition(A, mid + 1, right);
+
+    if (A[pos1] > A[pos2])
+        return pos1;
+    else
+        return pos2;
+}
