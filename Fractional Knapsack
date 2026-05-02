@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+#define oo INT_MAX
+using namespace std;
+typedef long long ll;
+typedef pair<double, double> ii;
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, wt;
+    cin >>n>>wt;
+    vector<pair<double,ii>> v(n);
+    for(int i=0;i<n;i++){
+        cin>>v[i].second.first>>v[i].second.second;
+        v[i].first=(v[i].second.first/v[i].second.second);
+    }
+    sort(v.rbegin(), v.rend());
+
+    int i=0;
+    double pr=0;
+    while(i<n && wt>v[i].second.second)
+    {
+        wt-=v[i].second.second;
+        pr+=v[i].second.first;
+        i++;
+    }
+    if(i<n && wt)
+    {
+        pr+=v[i].first*wt;
+    }
+    cout<<pr;
+    return 0;
+}
