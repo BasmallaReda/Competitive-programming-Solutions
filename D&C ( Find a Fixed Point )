@@ -1,0 +1,14 @@
+int findFixedPoint(int A[], int low, int high) 
+{
+    if (low > high)
+        return -1;
+
+    int mid = (low + high) / 2;
+
+    if (A[mid] == mid)
+        return mid;
+    else if (A[mid] > mid)
+        return findFixedPoint(A, low, mid - 1);
+    else
+        return findFixedPoint(A, mid + 1, high);
+}
