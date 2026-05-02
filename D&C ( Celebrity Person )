@@ -1,0 +1,31 @@
+bool knows(int x, int y);
+
+int findCandidate(int persons[], int size, int X, int index)
+{
+    if (index == size) {
+        return X;
+    }
+
+    int Y = persons[index];
+
+    if (knows(X, Y)) {
+        return findCandidate(persons, size, Y, index + 1);
+    } else {
+        return findCandidate(persons, size, X, index + 1);
+    }
+}
+
+int findAdel(int persons[], int n) 
+{
+    int candidate = findCandidate(persons, n, persons[0], 1);
+
+    // verification
+    for (int i = 0; i < n; i++) {
+        if (persons[i] == candidate) continue;
+
+        if (knows(candidate, persons[i])) return -1;
+        if (!knows(persons[i], candidate)) return -1;
+    }
+
+    return candidate;
+}
