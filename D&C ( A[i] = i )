@@ -1,0 +1,14 @@
+bool Check_Existence(int A[], int low, int high) 
+{
+    if (low > high)
+        return false;
+
+    int mid = (low + high) / 2;
+
+    if (A[mid] == mid)
+        return true;
+    else if (A[mid] > mid)
+        return Check_Existence(A, low, mid - 1);
+    else
+        return Check_Existence(A, mid + 1, high);
+}
