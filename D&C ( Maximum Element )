@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int maxElement(vector<int>& arr, int low, int high)
+{
+    if (low + 1 == high)
+        return arr[low];
+
+    int mid = (low + high) / 2;
+
+    return max(
+        maxElement(arr, low, mid),
+        maxElement(arr, mid, high)
+    );
+}
+
+int main() 
+{
+    vector<int> arr = {1, 7, 3, 9, 2};
+    cout << maxElement(arr, 0, arr.size());
+}
