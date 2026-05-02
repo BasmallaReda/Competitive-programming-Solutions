@@ -6,6 +6,44 @@
 using namespace std;
 typedef pair<int, int> ii;
 
+int prim2(vector<vector<int>>& edges, vector<vector<int>>& edgesTaken)
+{
+    int n=edges.size();
+    vector<bool> visited(n, false);
+    vector<int> minKey(n, INT_MAX);//cost from unvisited to parent(visited)
+    vector<int> parent(n, -1);//visited node actually
+    minKey[0]=0;
+    int wt=0;
+    for(int cnt=0;cnt<n;cnt++)
+    {
+        int mini=INT_MAX, u=-1;
+        for(int i=0;i<n;i++)
+        {
+            if(!visited[i] && minKey[i]<mini)
+            {
+                mini=minKey[i];
+                u=i;
+            }
+        }
+
+        if(u==-1) break;
+        visited[u]=true;
+        wt+=mini;
+
+        if(parent[u] != -1)
+            edgesTaken.push_back({parent[u], u});
+
+        for(int i=0;i<n;i++)
+        {
+            if(!visited[i]&& edges[u][i] && edges[u][i]<minKey[i])
+            {
+                minKey[i]=edges[u][i];
+                parent[i]=u;
+            }
+        }
+    }
+    return wt;
+}
 int prim(vector<vector<int>>& edges, vector<vector<int>>& edgesTaken)
 {
     int n=edges.size();
@@ -77,14 +115,14 @@ int main() {
     vector<bool>visited(n, false);
     vector<vector<int>>adj(n);
     int root=0;
-    cout<<prim(mat,adj)<<endl;
+    cout<<prim2(mat,adj)<<endl;
 
-    DFS(adj,visited,0);
-    cout<<endl;
-    visited.assign(n,false);
-    queue<int> q;
-    q.push(0);
-    visited[0]=true;
-    BFS(adj, visited, q);
+//    DFS(adj,visited,0);
+//    cout<<endl;
+//    visited.assign(n,false);
+//    queue<int> q;
+//    q.push(0);
+//    visited[0]=true;
+//    BFS(adj, visited, q);
     return 0;
 }
