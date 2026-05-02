@@ -1,0 +1,12 @@
+int FindNumber(int low, int high)
+{
+    if (low == high)
+        return low;
+
+    int mid = (low + high) / 2;
+
+    if (isLessThan(mid))
+        return FindNumber(low, mid - 1);
+    else
+        return FindNumber(mid, high);
+}
