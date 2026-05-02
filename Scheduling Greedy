@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+#include<algorithm>
+#include <bits/stdc++.h>
+#define oo INT_MAX
+using namespace std;
+typedef long long ll;
+typedef pair<int, int> ii;
+
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    cin >>n;
+    vector<ii> job(n);
+    for(int i=0;i<n;i++)//profit, deadline
+        cin>>job[i].first>>job[i].second;
+    sort(job.rbegin(), job.rend());
+    int profit=0;
+    vector<int> taken(n, 0);
+    for(int i=0;i<n;i++)
+    {
+        int dead=job[i].second;
+        for(int j=dead;j>0;j--){
+            if(!taken[j]){
+                taken[j]=job[i].first;
+                break;
+            }
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(taken[i])    cout<<i<<" "<<taken[i]<<endl;
+    }
+    return 0;
+}
