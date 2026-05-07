@@ -1,0 +1,26 @@
+class Solution {
+public:
+    void fun(vector<int>&v, int s, vector<int>x, int tar , int sum, vector<vector<int>>& res)
+    {
+        int n=v.size();
+        if(sum==tar){
+            res.push_back(x);
+            x.clear();
+            return;
+        }
+        while(s<n && sum+v[s]<=tar)
+        {
+            x.push_back(v[s]);
+            fun(v,s,x,tar, sum+v[s], res);
+            x.pop_back();
+            s++;
+        }
+    }
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        sort(candidates.begin(), candidates.end());
+        vector<int>v;
+        fun(candidates, 0, v, target, 0, res);
+        return res;
+    }
+};
