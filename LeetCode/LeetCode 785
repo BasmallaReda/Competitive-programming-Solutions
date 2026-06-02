@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& mat) {
+        queue<int> q;
+        int n=mat.size();
+        vector<pair<int, int>> visited(n, {0, -1});//0 red, 1 blue, -1 uncolored
+        for(int j=0;j<n;j++){
+            if(visited[j].first)
+                continue;
+            q.push(j);
+            visited[j].second=0;//red colored
+            while(!q.empty())
+            {
+                int nxt=q.front();
+                visited[nxt].first=1;
+                q.pop();
+                for(int i=0;i<mat[nxt].size();i++)
+                {
+                    int mem=mat[nxt][i];
+                    if(visited[mem].second != -1 && visited[mem].second==visited[nxt].second) return false;
+                    if(!visited[mem].first)
+                    {
+                        q.push(mem);
+                        visited[mem].second=!visited[nxt].second;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
