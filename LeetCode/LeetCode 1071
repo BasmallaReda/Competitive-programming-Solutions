@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int gcd(int a, int b){
+        if(b==0)
+            return a;
+        return gcd(b,a%b);
+    }
+
+    string str="";
+
+    string helper(string str1){
+        int len=str.length(), i;
+        /*for(i=0;i<str1.length();i+=len)
+        {
+            if(str1.substr(i,len)!=str)
+                return "";
+        }
+        if(i!=str1.length())
+            return "";
+        for(i=0;i<str2.length();i+=len)
+        {
+            if(str2.substr(i,len)!=str)
+                return "";
+        }
+        if(i!=str2.length())
+            return "";
+        return str;*/
+/*********************************************************************************/
+        if(str1.substr(0,len)!=str)
+            return "";
+        if(str1==str)
+            return str;
+        return helper(str1.substr(len));
+/*********************************************************************************/
+        /*if(str1.length()>=len && str1.substr(0,len)== str &&
+           str2.length()>=len && str2.substr(0,len)== str)
+                return helper(str1.substr(len), str2.substr(len));
+        if( str1=="" && str2.length()>=len && str2.substr(0,len)== str)
+                return helper("", str2.substr(len));
+        if( str2=="" && str1.length()>=len && str1.substr(0,len)== str)
+                return helper(str1.substr(len), "");
+        if(str1=="" && str2=="" )
+                return str;
+        else 
+            return "";*/
+    }
+
+    string gcdOfStrings(string str1, string str2) {
+        int len=gcd(str1.length(), str2.length());
+        str= str1.substr(0,len);
+        return helper(str1+str2);
+    }
+};
