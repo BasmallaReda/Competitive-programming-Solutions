@@ -1,0 +1,48 @@
+//Solution 1
+class Solution {
+public:
+    typedef long long ll;
+    ll gcd(int a, int b){
+        if(b==0)    return a;
+        return gcd(b,a%b);
+    }
+    const ll MOD = 1000000007;//1e9+7
+    int nthMagicalNumber(int n, int a, int b) {
+        ll lcm=((ll)a*b)/gcd(a,b);
+        ll count=lcm/a+lcm/b-1;
+        ll c=(n/count)*count;
+        ll lb=(n/count)*lcm;
+        ll x=lb,ma=lb,mb=lb;
+        while(c<n){
+            if(ma+a<mb+b) {ma+=a;x=ma;}
+            else {mb+=b;x=mb;}
+            c++;
+        }
+        return x%MOD;
+    }
+};
+
+//Solution 2
+
+class Solution {
+public:
+    typedef long long ll;
+    ll gcd(int a, int b){
+        if(b==0)    return a;
+        return gcd(b,a%b);
+    }
+    const ll MOD = 1000000007;//1e9+7
+    int nthMagicalNumber(int n, int a, int b) {
+        ll lcm=((ll)a*b)/gcd(a,b);
+        ll count=(lcm/a+lcm/b-1);
+        ll left=(n/count)*lcm, right=(n/count+1)*lcm, mid;
+        while(left<right){
+            mid=(left+right)/2;
+            count=mid/a+mid/b-mid/lcm;
+            if (count < n) left = mid+1;
+            else right = mid;
+
+        }
+        return right%MOD;
+    }
+};
