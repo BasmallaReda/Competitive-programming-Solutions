@@ -1,0 +1,28 @@
+class Solution {
+public:
+    typedef long long ll;
+    ll gcd(ll a, ll b){
+        if(b==0) return a;
+        return gcd(b, a%b);
+    }
+    int nthUglyNumber(int n, int a, int b, int c) {
+        int gcd1=(int)gcd(a,(ll)b);
+        int gcd2=(int)gcd(a,(ll)c);
+        int gcd3=(int)gcd(c,(ll)b);
+        ll lcm1=(ll)a*b/gcd1;
+        int g=(int)gcd(lcm1,(ll)c);
+        ll lcm2=(ll)a*c/gcd2;
+        ll lcm3=(ll)c*b/gcd3;
+        ll lcm=(ll)lcm1*c/g;
+        ll count=(lcm/a)+(lcm/b)+(lcm/c)+(lcm/lcm)-(lcm/lcm1)-(lcm/lcm2)-(lcm/lcm3);
+        ll lb=(n/count)*lcm;
+        ll hb=lb+lcm;
+        while(lb<hb){
+            ll mid=(lb+hb)/2;
+            count=(mid/a)+(mid/b)+(mid/c)+(mid/lcm)-(mid/lcm1)-(mid/lcm2)-(mid/lcm3);
+            if(count<n) lb=mid+1;
+            else hb=mid;
+        }
+        return lb;
+    }
+};
