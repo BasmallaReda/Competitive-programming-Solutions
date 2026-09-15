@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+
+signed main()
+{
+    ios_base::sync_with_stdio(0); cin.tie(0);
+    ///read input
+    ll n;
+    cin>>n;
+    vector<vector<ll>> points;
+    for(ll i=0;i<n;i++){
+        ll x, y;
+        cin>> x >> y;
+        if(abs(x)<=y && y>=0)
+            points.push_back({x,y});
+    }
+    ///sort y then x accordingly
+    sort(points.begin(), points.end(), [](auto &a, auto &b) {
+        if( a[1] == b[1])
+            return a[0]<b[0];
+        return a[1]<b[1];
+    });
+    ///remove duplicates and make ctr
+    vector<vector<ll>> NewPoints;
+    int ctr=1;
+    for(int i=0;i<points.size();i++){
+        if(i<points.size()-1 && points[i][0]==points[i+1][0] && points[i][1]==points[i+1][1]){
+            ctr++;
+            continue;
+        }
+        NewPoints.push_back({points[i][0],points[i][1], ctr});
+        ctr=1;
+    }
+    ///the main DP
+    vector<int> dpp(NewPoints.size(),0),dpm(NewPoints.size(),0);
+    for(int i=0;i<NewPoints.size();i++){
+        dpm[i]=abs(NewPoints[i][0]);//point'x dx from origin, the bare minimum
+        dpp[i] = NewPoints[i][2];//point's ctr, the bare minimum
+        ///condition-based selection
+        for(int j=0;j<i;j++){
+            ll dx=abs(NewPoints[j][0]-NewPoints[i][0]);
+            ll dy=NewPoints[i][1]-NewPoints[j][1];
+            ll ctr=NewPoints[i][2];
+            if(dx<=dy){// in its reigon
+                if(dpp[i]<ctr+dpp[j]){
+                    dpp[i]=ctr+dpp[j];
+                    dpm[i]=dpm[j]+dx;
+                }
+                else if(dpp[i]==ctr+dpp[j])//max points and min moves
+                    dpm[i]=(dpm[i]>dpm[j]+dx)?dpm[j]+dx:dpm[i];
+            }
+        }
+    }
+    ///the final result calculations, max points and min moves
+    int mx=0,mn=0;
+    for(int i=0;i<NewPoints.size();i++){
+        if(mx<dpp[i]){
+            mx=dpp[i]; mn=dpm[i];
+        }
+        else if(mx==dpp[i] && mn>dpm[i])
+            mn=dpm[i];
+    }
+    cout<<mx<<" "<<mn<<endl;
+    return 0;
+}
+// dp[i] = maximum number of points that can be collected
+//         in a valid path ending at point i.
+//
+// To move from j -> i, we need:
+// |x[i] - x[j]| <= y[i] - y[j]
+// because we have (y[i] - y[j]) moves, and each move can change x by at most 1.
+//
+// If we can move j -> i:
+// newPoints = dp[j] + count[i]
+// newDiag   = dpm[j] + |x[i] - x[j]|
+//
+// We first maximize the number of collected points.
+// If two paths collect the same number of points, choose the one
+// with fewer diagonal moves.
