@@ -1,0 +1,10 @@
+vector<int> factorize(int n) {
+    vector<int> factors;
+
+    while (n > 1) {
+        factors.push_back(lp[n]);
+        n /= lp[n];
+    }
+
+    return factors;
+}
